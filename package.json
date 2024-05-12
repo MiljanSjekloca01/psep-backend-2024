@@ -4,7 +4,8 @@
   "description": "Backend application developed as part of the PSEP subject project",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "ts-node src/index.ts"
   },
   "author": "Miljan Sjekloca",
   "license": "MIT",
@@ -13,9 +14,11 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "mysql2": "^3.9.7",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.20",
+    "typeorm-model-generator": "^0.4.6",
     "typescript": "^5.4.5"
   },
   "devDependencies": {

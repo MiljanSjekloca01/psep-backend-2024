@@ -1,0 +1,50 @@
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
+import { Device } from "./Device";
+import { Manufacturer } from "./Manufacturer";
+import { Type } from "./Type";
+
+@Index("uq_model_name", ["name"], { unique: true })
+@Index("fk_model_manufacturer_manufacturer_id", ["manufacturerId"], {})
+@Index("fk_model_type_type_id", ["typeId"], {})
+@Entity("model", { schema: "psep_2024_project" })
+export class Model {
+  @PrimaryGeneratedColumn({ type: "int", name: "model_id", unsigned: true })
+  modelId: number;
+
+  @Column("varchar", { name: "name", unique: true, length: 255 })
+  name: string;
+
+  @Column("int", { name: "manufacturer_id", unsigned: true })
+  manufacturerId: number;
+
+  @Column("int", { name: "type_id", unsigned: true })
+  typeId: number;
+
+  @Column("datetime", {
+    name: "created_at",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  createdAt: Date;
+
+  @Column("datetime", { name: "deleted_at", nullable: true })
+  deletedAt: Date | null;
+
+  @OneToMany(() => Device, (device) => device.model)
+  devices: Device[];
+
+  @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.models, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([
+    { name: "manufacturer_id", referencedColumnName: "manufacturerId" },
+  ])
+  manufacturer: Manufacturer;
+
+  @ManyToOne(() => Type, (type) => type.models, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "type_id", referencedColumnName: "typeId" }])
+  type: Type;
+}
