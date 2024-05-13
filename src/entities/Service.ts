@@ -50,17 +50,17 @@ export class Service {
   @JoinColumn([{ name: "state_id", referencedColumnName: "stateId" }])
   state: State;
 
-  @ManyToOne(() => User, (user) => user.services, {
+  @ManyToOne(() => User, (user) => user.createdByServices, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "created_by", referencedColumnName: "userId" }])
-  createdBy2: User;
+  createdByUser: User;
 
-  @ManyToOne(() => User, (user) => user.services2, {
+  @ManyToOne(() => User, (user) => user.updatedByServices, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "updated_by", referencedColumnName: "userId" }])
-  updatedBy2: User;
+  updatedByUser: User;
 }

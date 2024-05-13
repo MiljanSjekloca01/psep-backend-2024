@@ -1,13 +1,13 @@
 import { configDotenv } from "dotenv";
 import { DataSource } from "typeorm";
-import { Customer } from "../output/entities/Customer";
-import { Device } from "../output/entities/Device";
-import { Manufacturer } from "../output/entities/Manufacturer";
-import { Model } from "../output/entities/Model";
-import { Service } from "../output/entities/Service";
-import { State } from "../output/entities/State";
-import { Type } from "../output/entities/Type";
-import { User } from "../output/entities/User";
+import { Customer } from "./entities/Customer";
+import { Device } from "./entities/Device";
+import { Manufacturer } from "./entities/Manufacturer";
+import { Model } from "./entities/Model";
+import { Service } from "./entities/Service";
+import { State } from "./entities/State";
+import { Type } from "./entities/Type";
+import { User } from "./entities/User";
 
 configDotenv()
 

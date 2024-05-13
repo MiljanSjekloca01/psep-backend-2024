@@ -10,7 +10,7 @@ app.use(cors())
 app.use(morgan("tiny"))
 configDotenv()
 
-const port = process.env.SERVER_PORT || 5500;
+const port = process.env.SERVER_PORT || 4000;
 AppDataSource.initialize().then(() => {
     console.log("Connected to database");
     app.listen(port, () => {
