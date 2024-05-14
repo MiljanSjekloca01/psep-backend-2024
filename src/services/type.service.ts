@@ -7,14 +7,17 @@ const repo = AppDataSource.getRepository(Type)
 
 
 export class TypeService{
+    
     static async getAllTypes(){
-        const data = await repo.find({
-            where:{
+        return await repo.find({
+            select:{
+                typeId: true,
+                name: true,
+                createdAt: true,
+            },
+            where: {
                 deletedAt: IsNull()
             }
-        })
-
-        data.forEach(t => delete t.deletedAt)
-        return data
+        }) 
     }
 }

@@ -7,10 +7,14 @@ import { User } from "./User";
 @Index("fk_service_state_state_id", ["stateId"], {})
 @Index("fk_service_user_created_by", ["createdBy"], {})
 @Index("fk_service_user_updated_by", ["updatedBy"], {})
+@Index("uq_service_code", ["code"], { unique: true })
 @Entity("service", { schema: "psep_2024_project" })
 export class Service {
   @PrimaryGeneratedColumn({ type: "int", name: "service_id", unsigned: true })
   serviceId: number;
+
+  @Column("varchar", { name: "code", unique: true, length: 255 })
+  code: string;
 
   @Column("int", { name: "device_id", unsigned: true })
   deviceId: number;

@@ -7,12 +7,16 @@ const repo = AppDataSource.getRepository(Manufacturer)
 
 export class ManufacturerService{
     static async getAllManufacturers(){
-        const data = await repo.find({
+        return await repo.find({
+            select:{
+                manufacturerId: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+            },
             where: {
                 deletedAt: IsNull()
             }
-        })
-        data.forEach(s => delete s.deletedAt)
-        return data
+        }) 
     }
 }

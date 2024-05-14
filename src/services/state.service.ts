@@ -5,12 +5,16 @@ import { AppDataSource } from "../db";
 const repo = AppDataSource.getRepository(State)
 export class StateService{
     static async getAllStates(){
-        const data = await repo.find({
+        return await repo.find({
+            select:{
+                stateId: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+            },
             where: {
                 deletedAt: IsNull()
             }
-        })
-        data.forEach(s => delete s.deletedAt)
-        return data
+        }) 
     }
 }
