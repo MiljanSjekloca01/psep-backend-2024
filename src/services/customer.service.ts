@@ -46,7 +46,14 @@ export class CustomerService {
         else throw new Error("NOT_FOUND")
     }
 
+
     static async createCustomer(model: CustomerModel) {
+
+        // Dodatna sigurnost ali mislim da nije potrebno
+        if (!model.name || !model.email || !model.phone) {
+            throw new Error('Missing required fields');
+        }
+
         const data = await repo.save({
             name: model.name,
             email: model.email,
@@ -60,6 +67,11 @@ export class CustomerService {
     }
 
     static async updateCustomerById(id: number, model: CustomerModel) {
+        
+        if (!model.name || !model.email || !model.phone) {
+            throw new Error('Missing required fields');
+        }
+
         const data = await this.getCustomerById(id);
         data.name = model.name
         data.email = model.email
@@ -67,8 +79,9 @@ export class CustomerService {
         data.taxId = model.taxId
         data.updatedAt = new Date()
 
-        delete data.deletedAt
-        return data
+        const newData = await repo.save(data)
+        delete newData.deletedAt;
+        return newData
     }
 
     static async deleteCustomerById(id: number) {

@@ -31,10 +31,10 @@ AppDataSource.initialize().then(() => {
 app.use("/api/service",serviceRouter)
 app.use("/api/type",typeRouter)
 app.use("/api/state",stateRouter)
-app.use("/api/manufacturers",manufacturerRouter)
-app.use("/api/models",modelRouter)
-app.use("/api/devices",deviceRouter)
-app.use("/api/customers",customerRouter)
+app.use("/api/manufacturer",manufacturerRouter)
+app.use("/api/model",modelRouter)
+app.use("/api/device",deviceRouter)
+app.use("/api/customer",customerRouter)
 
 app.get("/", async (req,res) => {
   res.json(await ServiceService.getAllServicesByDevice(1))
