@@ -11,6 +11,32 @@ typeRouter.get("/",asyncHandler(
     }
 ))
 
+typeRouter.get("/:id",asyncHandler(
+    async (req,res) => {
+        res.json(await TypeService.getTypeById(+req.params.id))
+    }
+))
+
+
+typeRouter.post("/create",asyncHandler(
+    async (req,res) => {
+        res.json(await TypeService.createType(req.body))
+    }
+))
+
+typeRouter.put("/update/:id",asyncHandler(
+    async (req,res) => {
+        res.json(await TypeService.updateTypeById(+req.params.id,req.body))
+    }
+))
+
+typeRouter.put("/delete/:id",asyncHandler(
+    async (req,res) => {
+        res.json(await TypeService.deleteTypeById(+req.params.id))
+    }
+))
+
+
 
 /*
 typeRouter.get("/",async (req,res) => {

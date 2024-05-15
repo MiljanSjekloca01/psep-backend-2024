@@ -19,6 +19,9 @@ export class Type {
   @Column("datetime", { name: "deleted_at", nullable: true })
   deletedAt: Date | null;
 
+  @Column("datetime", { name: "updated_at", nullable: true })
+  updatedAt: Date;
+
   @OneToMany(() => Model, (model) => model.type)
   models: Model[];
 }

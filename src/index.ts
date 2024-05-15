@@ -3,11 +3,6 @@ import { configDotenv } from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import { AppDataSource } from "./db";
-import { CustomerService } from "./services/customer.service";
-import { TypeService } from "./services/type.service";
-import { ManufacturerService } from "./services/manufacturer.service";
-import { ModelService } from "./services/model.service";
-import { DeviceService } from "./services/device.service";
 import { ServiceService } from "./services/service.service";
 import { typeRouter } from "./routers/type.router";
 import { stateRouter } from "./routers/state.router";
@@ -45,9 +40,30 @@ app.get("/", async (req,res) => {
   res.json(await ServiceService.getAllServicesByDevice(1))
 })
 
-
-app.get("*", (req,res) => {
-    res.status(404).json({
-        message: "Not Found!"
+const handleNotFound = (req,res) => {
+    console.log("handle not Found")
+    res.status(501).json({
+        message: "NOT_IMPLEMENTED",
+        timestamp: new Date()
     })
-})
+
+}
+
+
+app.get("*", handleNotFound);
+app.post("*", handleNotFound);
+app.put("*", handleNotFound);
+app.delete("*", handleNotFound);
+
+/* 
+app.use((err, req, res, next) => {
+    if (err.message === "NOT_FOUND") {
+        res.status(404).json({
+            message: "NOT_FOUND"
+        });
+    } else {
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+});*/

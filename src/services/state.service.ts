@@ -1,6 +1,7 @@
 import { IsNull } from "typeorm";
 import { State } from "../entities/State";
 import { AppDataSource } from "../db";
+import { NameModel } from "../models/name.model";
 
 const repo = AppDataSource.getRepository(State)
 export class StateService{
@@ -17,4 +18,50 @@ export class StateService{
             }
         }) 
     }
+
+    static async getStateById(id: number) {
+        const data = await repo.findOne({
+            select: {
+                stateId: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true
+            },
+            where: {
+                stateId: id,
+                deletedAt: IsNull()
+            }
+        })
+
+        if (data) return data
+        else throw new Error("NOT_FOUND")
+    }
+
+    static async createState(model: NameModel) {
+        const data = await repo.save({
+            name: model.name,
+            createdAt: new Date()
+        })
+
+        delete data.deletedAt;
+        return data
+    }
+
+    static async updateState(id: number, model: NameModel) {
+        const data = await this.getStateById(id)
+        data.name = model.name
+        data.updatedAt = new Date()
+
+        const newData = await repo.save(data)
+        delete newData.deletedAt;
+        return newData
+    }
+
+    static async deleteStateById(id: number) {
+        const data = await this.getStateById(id)
+        data.deletedAt = new Date()
+        await repo.save(data)
+    }
+
+
 }
