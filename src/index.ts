@@ -14,6 +14,7 @@ import { customerRouter } from "./routers/customer.router";
 
 const app = express();
 app.use(express.json())
+app.use('/favicon.ico', express.static('../favicon.ico'));
 app.use(cors())
 app.use(morgan("tiny"))
 configDotenv()
@@ -40,8 +41,8 @@ app.get("/", async (req,res) => {
   res.json(await ServiceService.getAllServicesByDevice(1))
 })
 
+
 const handleNotFound = (req,res) => {
-    console.log("handle not Found")
     res.status(501).json({
         message: "NOT_IMPLEMENTED",
         timestamp: new Date()

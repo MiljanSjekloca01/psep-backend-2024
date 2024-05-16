@@ -3,6 +3,7 @@ import { Type } from "../entities/Type";
 import { AppDataSource } from "../db";
 import { NameModel } from "../models/name.model";
 import { validate } from "class-validator";
+import { checkIfDefined } from "../utils";
 
 
 const repo = AppDataSource.getRepository(Type)
@@ -39,8 +40,7 @@ export class TypeService{
             }
         }) 
 
-        if (data) return data
-        else throw new Error("NOT_FOUND")
+        return checkIfDefined(data);
 
     }
 
@@ -52,14 +52,13 @@ export class TypeService{
         const type = new Type();
         type.name = model.name;
         type.createdAt = new Date();
-
+        
         const errors = await validate(type);
         if (errors.length > 0) {
             throw new Error("Name is required");
         }
 
-        const data: Type = await repo.save(type);
-
+        const data = await repo.save(type);
         delete data.deletedAt;
         return data;
     }
@@ -69,15 +68,15 @@ export class TypeService{
         data.name = model.name
         data.updatedAt = new Date()
 
-        const newData = await repo.save(data)
-        delete newData.deletedAt;
-        return newData
+        return await repo.save(data)
+        
     }
 
     static async deleteTypeById(id: number){
         const data = await this.getTypeById(id)
         data.deletedAt = new Date()
         await repo.save(data)
+        return `Type with this id ${id} successfully deleted`
     }
  
 }

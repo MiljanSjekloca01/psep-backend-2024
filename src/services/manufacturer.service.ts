@@ -2,6 +2,7 @@ import { IsNull } from "typeorm";
 import { Manufacturer } from "../entities/Manufacturer";
 import { AppDataSource } from "../db";
 import { NameModel } from "../models/name.model";
+import { checkIfDefined } from "../utils";
 
 
 const repo = AppDataSource.getRepository(Manufacturer)
@@ -36,8 +37,7 @@ export class ManufacturerService{
             }
         })
 
-        if (data) return data
-        else throw new Error("NOT_FOUND")
+        return checkIfDefined(data);
     }
 
     static async createManufacturer(model: NameModel) {
@@ -55,15 +55,14 @@ export class ManufacturerService{
         data.name = model.name
         data.updatedAt = new Date()
 
-        const newData = await repo.save(data)
-        delete newData.deletedAt;
-        return newData
+        return await repo.save(data)
     }
 
     static async deleteManufacturerById(id: number) {
         const data = await this.getManufacturerById(id)
         data.deletedAt = new Date()
         await repo.save(data)
+        return "Deleted Manufacturer"
     }
 
 

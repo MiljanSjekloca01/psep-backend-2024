@@ -29,6 +29,9 @@ export class Device {
   @Column("datetime", { name: "deleted_at", nullable: true })
   deletedAt: Date | null;
 
+  @Column("datetime", { name: "updated_at", nullable: true })
+  updatedAt: Date | null;
+
   @ManyToOne(() => Customer, (customer) => customer.devices, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",

@@ -14,7 +14,8 @@ customerRouter.get("/",asyncHandler(
 
 customerRouter.get("/:id",asyncHandler(
     async (req,res) => {
-        res.json(await CustomerService.getCustomerById(+req.params.id))
+        const id = req.params.id as any as number
+        res.json(await CustomerService.getCustomerById(id))
     }
 ))
 

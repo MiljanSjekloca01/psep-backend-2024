@@ -29,6 +29,9 @@ export class Model {
   @Column("datetime", { name: "deleted_at", nullable: true })
   deletedAt: Date | null;
 
+  @Column("datetime", { name: "updated_at", nullable: true })
+  updatedAt: Date | null;
+
   @OneToMany(() => Device, (device) => device.model)
   devices: Device[];
 

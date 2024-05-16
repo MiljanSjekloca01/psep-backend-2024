@@ -34,11 +34,11 @@ export class Service {
   @Column("int", { name: "updated_by", nullable: true, unsigned: true })
   updatedBy: number | null;
 
-  @Column("datetime", { name: "updated_at" })
-  updatedAt: Date;
+  @Column("datetime", { name: "updated_at", nullable: true})
+  updatedAt: Date | null;
 
-  @Column("datetime", { name: "deleted_at" })
-  deletedAt: Date;
+  @Column("datetime", { name: "deleted_at", nullable: true})
+  deletedAt: Date | null;
 
   @ManyToOne(() => Device, (device) => device.services, {
     onDelete: "CASCADE",

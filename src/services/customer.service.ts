@@ -2,6 +2,7 @@ import { IsNull } from "typeorm";
 import { Customer } from "../entities/Customer";
 import { AppDataSource } from "../db";
 import { CustomerModel } from "../models/customer.model";
+import { checkIfDefined } from "../utils";
 
 
 const repo = AppDataSource.getRepository(Customer)
@@ -41,9 +42,7 @@ export class CustomerService {
                 deletedAt: IsNull()
             }
         })
-
-        if (data) return data
-        else throw new Error("NOT_FOUND")
+        return checkIfDefined(data);
     }
 
 
@@ -79,15 +78,15 @@ export class CustomerService {
         data.taxId = model.taxId
         data.updatedAt = new Date()
 
-        const newData = await repo.save(data)
-        delete newData.deletedAt;
-        return newData
+        return await repo.save(data)
+
     }
 
     static async deleteCustomerById(id: number) {
         const data = await this.getCustomerById(id);
         data.deletedAt = new Date()
         await repo.save(data)
+        return "Deleted Customer"
     }
 
 
