@@ -2,6 +2,7 @@ import { IsNull } from "typeorm";
 import { Type } from "../entities/Type";
 import { AppDataSource } from "../db";
 import { NameModel } from "../models/name.model";
+import { validate } from "class-validator";
 
 
 const repo = AppDataSource.getRepository(Type)
@@ -44,12 +45,23 @@ export class TypeService{
     }
 
     static async createType(model: NameModel){
-        const data = await repo.save({
-            name:model.name,
-            createdAt: new Date()
-        })
+        /*
+        if(!model.name){
+            throw new Error("Name is required")
+        }*/
+        const type = new Type();
+        type.name = model.name;
+        type.createdAt = new Date();
+
+        const errors = await validate(type);
+        if (errors.length > 0) {
+            throw new Error("Name is required");
+        }
+
+        const data: Type = await repo.save(type);
+
         delete data.deletedAt;
-        return data
+        return data;
     }
 
     static async updateTypeById(id: number,model: NameModel){
