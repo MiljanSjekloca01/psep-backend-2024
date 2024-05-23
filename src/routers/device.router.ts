@@ -17,12 +17,6 @@ deviceRouter.get("/:id",asyncHandler(
     }
 ))
 
-deviceRouter.get("/:id/simple",asyncHandler(
-    async (req,res) => {
-        res.json(await DeviceService.getDeviceWithoutRelationsById(+req.params.id))
-    }
-))
-
 deviceRouter.post("/create",asyncHandler(
     async (req,res) => {
         res.json(await DeviceService.createDevice(req.body))

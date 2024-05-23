@@ -13,6 +13,7 @@ export class ModelService{
                 modelId: true,
                 name:true,
                 createdAt: true,
+                updatedAt: true,
                 manufacturer: { manufacturerId: true,name: true},
                 type:{ typeId: true,name: true }
            },
@@ -33,14 +34,12 @@ export class ModelService{
        
     }
 
-
-    static async getModelbyId(id: number): Promise<Model>{
-        const data =  await repo.findOne({
-           select:{ modelId: true, name:true, createdAt: true, manufacturer: { manufacturerId: true,name: true}, type:{ typeId: true,name: true } },
-           where:{ type:{ deletedAt: IsNull() }, manufacturer:{ deletedAt: IsNull() }, modelId: id, deletedAt: IsNull() },
-           relations: { type: true, manufacturer: true }
+    static async getModelById(id: number): Promise<Model>{
+        const data = await repo.findOne({
+            select:{modelId: true,name:true,manufacturerId:true,typeId:true,createdAt:true,updatedAt:true},
+            where:{ type:{ deletedAt: IsNull() }, manufacturer:{ deletedAt: IsNull() }, modelId: id, deletedAt: IsNull() },
         })
-        return checkIfDefined(data);
+        return checkIfDefined(data)
     }
 
 
@@ -56,7 +55,7 @@ export class ModelService{
     }
 
     static async updateModelById(id: number,model: Model){
-        const data = await this.getModelWithoutRelationsById(id)
+        const data = await this.getModelById(id)
         data.name = model.name
         data.typeId = model.typeId
         data.updatedAt = new Date()
@@ -68,7 +67,7 @@ export class ModelService{
 
 
     static async deleteModelById(id: number){
-        const data = await this.getModelWithoutRelationsById(id)
+        const data = await this.getModelById(id)
         data.deletedAt = new Date()
         await repo.save(data)
 
@@ -77,13 +76,6 @@ export class ModelService{
     }
 
 
-    static async getModelWithoutRelationsById(id: number): Promise<Model>{
-        const data = await repo.findOne({
-            select:{modelId: true,name:true,manufacturerId:true,typeId:true,createdAt:true,updatedAt:true},
-            where:{ type:{ deletedAt: IsNull() }, manufacturer:{ deletedAt: IsNull() }, modelId: id, deletedAt: IsNull() },
-        })
-        return checkIfDefined(data)
-    }
 
 
 

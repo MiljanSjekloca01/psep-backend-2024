@@ -23,9 +23,3 @@ serviceRouter.get("/:id",asyncHandler(
         res.json(await ServiceService.getServiceById(+req.params.id))
     }
 ))
-
-serviceRouter.get("/:id/simple",asyncHandler(
-    async (req,res) => {
-        res.json(await ServiceService.getServiceWithoutRelationsById(+req.params.id))
-    }
-))

@@ -38,7 +38,7 @@ app.use("/api/device",deviceRouter)
 app.use("/api/customer",customerRouter)
 
 app.get("/", async (req,res) => {
-  res.json(await ServiceService.getAllServicesByDevice(1))
+  res.json("Backend running")
 })
 
 

@@ -13,13 +13,7 @@ modelRouter.get("/",asyncHandler(
 
 modelRouter.get("/:id",asyncHandler(
     async (req,res) => {
-        res.json(await ModelService.getModelbyId(+req.params.id))
-    }
-))
-
-modelRouter.get("/:id/simple",asyncHandler(
-    async (req,res) => {
-        res.json(await ModelService.getModelWithoutRelationsById(+req.params.id))
+        res.json(await ModelService.getModelById(+req.params.id))
     }
 ))
 
