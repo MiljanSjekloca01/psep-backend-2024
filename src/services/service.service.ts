@@ -13,9 +13,9 @@ export class ServiceService {
                 serviceId: true,
                 state: { stateId: true, name: true },
                 createdAt: true,
-                createdByUser: { userId: true, userName: true },
+                createdByUser: { userId: true, username: true },
                 updatedAt: true,
-                updatedByUser: { userId: true, userName: true }
+                updatedByUser: { userId: true, username: true }
             },
             where: { device: { deviceId: id, model: { type: { deletedAt: IsNull() }, manufacturer: { deletedAt: IsNull() }, deletedAt: IsNull() }, customer: { deletedAt: IsNull() }, deletedAt: IsNull() }, state: { deletedAt: IsNull() }, deletedAt: IsNull() },
             relations: {

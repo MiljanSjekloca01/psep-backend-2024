@@ -1,14 +1,14 @@
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn, } from "typeorm";
 import { Service } from "./Service";
 
-@Index("uq_user_userName", ["userName"], { unique: true })
+@Index("uq_user_username", ["username"], { unique: true })
 @Entity("user", { schema: "psep_2024_project" })
 export class User {
   @PrimaryGeneratedColumn({ type: "int", name: "user_id", unsigned: true })
   userId: number;
 
-  @Column("varchar", { name: "userName", unique: true, length: 255 })
-  userName: string;
+  @Column("varchar", { name: "username", unique: true, length: 255 })
+  username: string;
 
   @Column("varchar", { name: "password", length: 45 })
   password: string;

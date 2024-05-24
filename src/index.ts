@@ -11,6 +11,8 @@ import { manufacturerRouter } from "./routers/manufacturer.router";
 import { modelRouter } from "./routers/model.router";
 import { deviceRouter } from "./routers/device.router";
 import { customerRouter } from "./routers/customer.router";
+import { userRouter } from "./routers/user.router";
+import { authenticateToken } from "./utils";
 
 const app = express();
 app.use(express.json())
@@ -29,6 +31,8 @@ AppDataSource.initialize().then(() => {
     console.log(e);
 })
 
+app.use(authenticateToken)
+app.use("/api/user",userRouter)
 app.use("/api/service",serviceRouter)
 app.use("/api/type",typeRouter)
 app.use("/api/state",stateRouter)
@@ -36,6 +40,7 @@ app.use("/api/manufacturer",manufacturerRouter)
 app.use("/api/model",modelRouter)
 app.use("/api/device",deviceRouter)
 app.use("/api/customer",customerRouter)
+
 
 app.get("/", async (req,res) => {
   res.json("Backend running")
