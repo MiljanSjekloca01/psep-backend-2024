@@ -19,13 +19,11 @@ export class UserService{
     static async login(model: LoginModel) {
         const user = await this.getUserByUsername(model.username)
         const matches = await bcrypt.compare(model.password, user.password); 
-        console.log(model.password)
-        console.log(user.password);
         if (matches) {
             return {
                 username: user.username,
-                access: jwt.sign({ name: user.username }, accessSecret, { expiresIn: accessExpire }),
-                refresh: jwt.sign({ name: user.username }, refreshSecret, { expiresIn: refreshExpire })
+                access: jwt.sign({ name: user.username }, accessSecret, { expiresIn: accessExpire as string }),
+                refresh: jwt.sign({ name: user.username }, refreshSecret, { expiresIn: refreshExpire as string })
             };
         }else{
             throw new Error("BAD_CREDENTIALS")

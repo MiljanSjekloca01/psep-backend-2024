@@ -12,8 +12,9 @@ export function checkIfDefined(data: any){
     return data
     }
 }
-
+configDotenv()
 export async function authenticateToken(req : RequestModel, res: Response, next: Function) {
+
     const unprotected = ['/api/user/login', '/api/user/refresh']
     if (unprotected.includes(req.path)) {
         next()
@@ -28,13 +29,10 @@ export async function authenticateToken(req : RequestModel, res: Response, next:
     }
 
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET as string, (err: any, user: any) => {
-        console.log(process.env.ACCESS_TOKEN_SECRET)
-        console.log(token)
-        console.log(jwt.verify(token,process.env.ACCESS_TOKEN_SECRET))
         if (err) {
             return sendErrorResponse(res, 403, 'INVALID_TOKEN')
         }
-        req.user = user.name
+        req.user = user
         next()
     })
 }

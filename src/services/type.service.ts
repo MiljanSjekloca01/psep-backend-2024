@@ -8,7 +8,6 @@ import { checkIfDefined } from "../utils";
 
 const repo = AppDataSource.getRepository(Type)
 
-
 export class TypeService{
     
     static async getAllTypes(){

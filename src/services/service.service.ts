@@ -2,7 +2,8 @@ import { IsNull } from "typeorm";
 import { Service } from "../entities/Service";
 import { AppDataSource } from "../db";
 import { checkIfDefined } from "../utils";
-
+import { ServiceModel } from "../models/service.model";
+import { UserService } from "./user.service";
 const repo = AppDataSource.getRepository(Service)
 
 
@@ -90,7 +91,7 @@ export class ServiceService {
         return checkIfDefined(data)
     }
 
-    static async getServiceById(id: number) {
+    static async getServiceById(id: number): Promise<Service> {
         const data = await repo.findOne({
             select: {
                 serviceId: true,
@@ -124,5 +125,35 @@ export class ServiceService {
         })
 
         return checkIfDefined(data)
+    }
+
+
+    static async createService(model: ServiceModel,username: string){
+        const user = await UserService.getUserByUsername(username)
+        return await repo.save({
+            code: model.code,
+            deviceId: model.deviceId,
+            stateId: model.stateId,
+            createdAt: new Date(),
+            createdBy: user.userId,
+        })
+    }
+
+    static async updateServiceById(id:number,model: ServiceModel,username: string){
+        const user = await UserService.getUserByUsername(username)
+        const data = await this.getServiceById(id)
+        data.code = model.code
+        data.deviceId = model.deviceId,
+        data.stateId = model.stateId,
+        data.updatedAt = new Date(),
+        data.updatedBy = user.userId 
+        return await repo.save(data)
+       
+    }
+
+    static async deleteServiceById(id: number){
+        const data = await this.getServiceById(id)
+        data.deletedAt = new Date()
+        await repo.save(data)
     }
 }
