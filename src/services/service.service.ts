@@ -139,7 +139,7 @@ export class ServiceService {
         const user = await UserService.getUserByUsername(username)
 
         return await repo.save({
-            code: model.code,
+            code: Date.now().toString(),
             deviceId: model.deviceId,
             stateId: model.stateId,
             createdAt: new Date(),

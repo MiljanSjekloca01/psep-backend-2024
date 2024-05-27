@@ -40,7 +40,6 @@ serviceRouter.put("/update/:id",asyncHandler(
 
 serviceRouter.put("/delete/:id",asyncHandler(
     async (req,res) => {
-        console.log(req.params.id)
         res.json(await ServiceService.deleteServiceById(+req.params.id))
     }
 ))
