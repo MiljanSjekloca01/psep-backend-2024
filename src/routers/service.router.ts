@@ -14,7 +14,8 @@ serviceRouter.get("/device/:id",asyncHandler(
 
 serviceRouter.get("/code/:code",asyncHandler(
     async (req,res) => {
-        res.json(await ServiceService.getServiceByCode(req.params.code))
+        const code = req.params.code as any as string
+        res.json(await ServiceService.getServiceByCode(code))
     }
 ))
 

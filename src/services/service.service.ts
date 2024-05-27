@@ -29,7 +29,7 @@ export class ServiceService {
     }
 
     static async getServiceByCode(code: string) {
-        const data = await repo.findOne({
+        return await repo.findOne({
             select: {
                 serviceId: true,
                 code: true,
@@ -57,6 +57,7 @@ export class ServiceService {
             },
             where: {
                 device: {
+                    
                     model: {
                         type: {
                             deletedAt: IsNull()
@@ -85,11 +86,11 @@ export class ServiceService {
                         type: true
                     },
                     customer: true
-                }
+                },
+                createdByUser: true,
+                updatedByUser: true
             }
         })
-
-        return checkIfDefined(data)
     }
 
     static async getServiceById(id: number): Promise<Service> {
