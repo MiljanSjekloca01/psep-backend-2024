@@ -28,18 +28,19 @@ serviceRouter.get("/:id",asyncHandler(
 
 serviceRouter.post("/create",asyncHandler(
     async (req: RequestModel,res) => {
-        res.json(await ServiceService.createService(req.body,req.user))
+        res.json(await ServiceService.createService(req.body,req.username))
     }
 ))
 
-serviceRouter.put("/update",asyncHandler(
+serviceRouter.put("/update/:id",asyncHandler(
     async (req: RequestModel,res) => {
-        res.json(await ServiceService.updateServiceById(+req.params.id,req.body,req.user))
+        res.json(await ServiceService.updateServiceById(+req.params.id,req.body,req.username))
     }
 ))
 
-serviceRouter.put("/delete",asyncHandler(
+serviceRouter.put("/delete/:id",asyncHandler(
     async (req,res) => {
+        console.log(req.params.id)
         res.json(await ServiceService.deleteServiceById(+req.params.id))
     }
 ))

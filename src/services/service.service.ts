@@ -12,6 +12,7 @@ export class ServiceService {
         return await repo.find({
             select: {
                 serviceId: true,
+                code: true,
                 state: { stateId: true, name: true },
                 createdAt: true,
                 createdByUser: { userId: true, username: true },
@@ -94,11 +95,14 @@ export class ServiceService {
     static async getServiceById(id: number): Promise<Service> {
         const data = await repo.findOne({
             select: {
+                code: true,
                 serviceId: true,
                 deviceId: true,
                 stateId: true,
                 createdAt: true,
                 updatedAt: true,
+                createdByUser: { userId: true, username: true},
+                updatedByUser:{ userId: true, username: true}
             },
             where: {
                 device: {
@@ -121,15 +125,19 @@ export class ServiceService {
                 },
                 serviceId: id,
                 deletedAt: IsNull()
+            },relations: {
+                createdByUser: true,
+                updatedByUser: true
             }
         })
-
+        
         return checkIfDefined(data)
     }
 
 
     static async createService(model: ServiceModel,username: string){
         const user = await UserService.getUserByUsername(username)
+
         return await repo.save({
             code: model.code,
             deviceId: model.deviceId,
