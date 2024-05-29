@@ -28,11 +28,11 @@ export async function authenticateToken(req : RequestModel, res: Response, next:
         return sendErrorResponse(res, 401, 'NO_TOKEN')
     }
 
-    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET as string, (err: any, res: any) => {
+    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET as string, (err: any, dec: any) => {
         if (err) {
             return sendErrorResponse(res, 403, 'INVALID_TOKEN')
         }
-        req.username = res.name
+        req.username = dec.name
         next()
     })
 }
