@@ -5,8 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon src/index.ts",
-    "start": "ts-node src/index.ts"
+    "dev": "nodemon src/index.ts"
   },
   "author": "Miljan Sjekloca",
   "license": "MIT",
